@@ -4,22 +4,6 @@
 Created on Wed Jan 17 20:45:10 2018
 
 @author: matterholt
-"""
-'''
-echo "# work" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git remote add origin https://github.com/matterholt/work.git
-git push -u origin master
-
-
-
-git remote add origin https://github.com/matterholt/work.git
-git push -u origin master
-'''
-
-
 
 #the Data
 u = (0,1),(1,4),(2,9),(3,17),(4,27),(5,50)
