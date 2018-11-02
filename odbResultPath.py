@@ -1,10 +1,17 @@
 #-*- coding: utf-8 -*-
 """
 
-need to be Python 2 due to Abaqus scripting
-!!! need to set up some regex to make sure no other 
-!!! value is entered!!
+1. Define load step = LOOK -->   odb.steps[Step-1]
+2. Define Nodes number = LOOK --> .historyRegions[Node PART-1-1.]
+3-1. Define Reaction Force = LOOK --> .historyOutputs[RF1 LOCAL].data
+3-2. Define Reaction Force = LOOK --> .historyOutputs[U1 LOCAL].data
+RESULTS-->(odb.steps[Step-1].historyRegions[Node PART-1-1.1].historyOutputs[U1 LOCAL].data)
+
+!!! for full automation use the analysis.inp file to extract all data
 """
+
+import re
+import os
 
 #===========================================
 #Defines the load step for displacement / ReactionForce
@@ -25,6 +32,33 @@ def LoadStep():
     else:
         print("!!! --> "+ defaultStep + "is invalid")
         return LoadStep()
+#--> odb.steps[Step-1] --> out out should look like
+
+
+#===========================================
+#Defines the Node number for which the load is applied
+#!future need to change "PART-1-1.1" --> need to be corrected in *.inp file
+#===========================================
+def DefineNodeNum():
+    node = input("Load applied Node number: ")
+    #RegEx requires number in the first postion to be 1 through 6
+    regexPattern = r'^[1-6]'
+    confirm = re.fullmatch(regexPattern,node)  
+      
+    #part of the path of data NEEDED
+    output = "Node PART-1-1." + node    
+    
+    #confirm if input is good to proceed  
+    if confirm :
+        print ("Load applied to " + node)
+        print('CHECK: ' + output)
+        return output
+    else:
+        print("!!ERROR-> Value between 1-6")
+        DefineNodeNum()
+#--> historyRegions[Node PART-1-1.] --> out out should look like
+
+
 #===========================================
 #Defines the Analysis System for which direction of load 
 #===========================================
@@ -40,15 +74,9 @@ def DefineSystem():
     else:
         print("!!!" + systemDef + "invalid value")
         return DefineSystem()
-#===========================================
-#Defines the Node number for which the load is applied
-#!!! need to make sure in does not go to the next step until 
-#===========================================
-def DefineNodeNum():
-    node = input("Load applied Node number: ")
-    output = "Node PART-1-1." + node
-    print ("--> Load applied to " + node)
-    return output
+
+
+
 #===========================================
 #Defines the Node number for which the load is applied
 #===========================================
