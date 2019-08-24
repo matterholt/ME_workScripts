@@ -11,15 +11,14 @@ needs to be refractored
 
 """
 
-
-#the Data
-u = (0,1),(1,4),(2,9),(3,17),(4,27),(5,50)
-rf= (0,5),(1,12),(2,17),(3,30),(4,45),(5,70)
+# the Data
+u = (0, 1), (1, 4), (2, 9), (3, 17), (4, 27), (5, 50)
+rf = (0, 5), (1, 12), (2, 17), (3, 30), (4, 45), (5, 70)
 ####
 
 
-# help create the curve, 
-def curve (u,rf):
+# help create the curve,
+def curve(u, rf):
     curveList = []
     for i, j in u:
         curveList = curveList + [j]
@@ -28,9 +27,9 @@ def curve (u,rf):
     return curveList
 
 
-result = curve(u,rf)
+result = curve(u, rf)
 #rfResult = force(rf)
 
 
 print(result)
-#print(transposed)
+# print(transposed)
