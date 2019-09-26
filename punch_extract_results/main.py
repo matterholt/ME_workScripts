@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .local_packages.read_file import read_doc
+from local_packages.read_file import read_doc
 
 
 def main():
