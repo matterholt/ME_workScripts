@@ -18,3 +18,22 @@ def filter_odbfile(all_file_dir):
             # send to log for user
             pass
     return all_odb_dir
+
+
+def check_for_inp(all_file_dir, odb_files):
+    filter_odbs = []
+    for odb_file in odb_files:
+        inp_file = odb_file[0:-3] + "inp"
+        for file in all_file_dir:
+            if inp_file == file:
+                filter_odbs.append(odb_file)
+            else:
+                pass
+                # send to log for user
+    return filter_odbs
+
+
+def ind_files_for_extraction(all_files):
+    odb_file_in_dir = filter_odbfile(all_files)
+    odb_checkFor_inp = check_for_inp(all_files, odb_file_in_dir)
+    return odb_checkFor_inp
