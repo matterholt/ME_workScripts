@@ -1,5 +1,5 @@
 import pytest
-from v3r00.packages.dir_file_odbLoc import filter_odbfile, check_for_inp, ind_files_for_extraction
+from ..packages.dir_file_odbLoc import filter_odbfile, check_for_inp, find_files_for_extraction
 
 
 class Test_directory_file_ODBloc:
@@ -14,4 +14,4 @@ class Test_directory_file_ODBloc:
 
     def test_find_files_for_extraction(self):
         dir_list = ['a.odb', 'b.odb', 'c.inp', 'b.inp']
-        assert ind_files_for_extraction(dir_list) == ['b.odb']
+        assert find_files_for_extraction(dir_list) == ['b.odb']

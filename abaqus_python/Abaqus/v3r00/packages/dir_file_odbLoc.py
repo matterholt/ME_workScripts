@@ -33,7 +33,7 @@ def check_for_inp(all_file_dir, odb_files):
     return filter_odbs
 
 
-def ind_files_for_extraction(all_files):
+def find_files_for_extraction(all_files):
     odb_file_in_dir = filter_odbfile(all_files)
     odb_checkFor_inp = check_for_inp(all_files, odb_file_in_dir)
     return odb_checkFor_inp
