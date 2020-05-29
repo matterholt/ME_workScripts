@@ -86,11 +86,12 @@ def search_dir(dir_path, inputs_bond):
 
 def main():
     boundaries = {
-        "extension_no_need": [".html", ".out", ".res", ".stat", ".mesg"],
-        "extension_remove_old": [".op2", ".odb", ".hyp", ],
+        "extension_no_need": [".html", ".out", ".res", ".stat",
+                              ".mesg", ".mvw"],
+        "extension_remove_old": [".op2", ".odb", ".hyp", ".h3d"],
         "current_date": datetime.datetime
     }
-    # correct way to parse the path os.path.join ??
+    # correct / better way to parse the path os.path.join ??
     # raw_dir_path = r"F:"
     raw_dir_path = r"S:/v2"
 
