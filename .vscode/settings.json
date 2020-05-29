@@ -1,9 +1,10 @@
 {
-    "python.pythonPath": "/Users/matterholt/anaconda3/envs/engineer_sript/bin/python",
+    "python.pythonPath": "/Users/matterholt/.pyenv/versions/3.7.3/bin/python",
     "cSpell.ignoreWords": [
         "eget"
     ],
     "python.linting.pycodestyleEnabled": false,
-    "python.linting.mypyEnabled": true,
-    "python.linting.enabled": true
+    "python.linting.mypyEnabled": false,
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true
 }
