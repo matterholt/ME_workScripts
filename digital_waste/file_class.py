@@ -1,6 +1,7 @@
 """
 obtain the data for files need to analysis
 """
+import os
 from time import strftime, gmtime
 
 
@@ -12,7 +13,7 @@ class File_Data:
         self.file_path = self.subdir + os.sep + self.file_name
 
     def file_type_extension(self):
-        return os.path.splitext(self.file_path)[1]
+        return os.path.splitext(self.file_name)[1]
 
     def year_file_accessed(self):
         access_date_file = os.stat(self.file_path).st_mtime

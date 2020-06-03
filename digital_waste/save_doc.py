@@ -24,12 +24,13 @@ def save_report_csv(dict_stat, current_work_dir):
     print(saved_dir_file_name)
 
 
-def save_report_json(working_list,):
+def save_report_json(working_list, dir_analysed):
+    file_analyzed = "_".join(dir_analysed.split("/"))
     # Serializing json
     json_object = json.dumps(working_list, indent=2)
 
     # Writing to sample.json
-    with open("sample.json", "w") as outfile:
+    with open(f"file_inventory_{file_analyzed}.json", "w") as outfile:
         outfile.write(json_object)
 
     print("file saved")

@@ -1,9 +1,12 @@
+import os
+from file_class import File_Data
 
-def take_inventory_dir(dir_path, file_requirements):
+
+def take_inventory_dir(dir_path, file_requirements=None):
 
     file_path_error = 0
 
-    other_file_list = []
+    default_file = []
     junk_file_list = []
     review_file_list = []
 
@@ -13,14 +16,17 @@ def take_inventory_dir(dir_path, file_requirements):
                 file_specs = File_Data(subdir, dirs, file_name)
                 file_type_extension = file_specs.file_type_extension()
 
-                if file_type_extension in file_requirements["review_file"]:
-                    review_file_list.append(file_specs)
+                if file_requirements is not None:
 
-                if file_type_extension in file_requirements["junk_file"]:
-                    junk_file_list.append(file_specs)
+                    if file_type_extension in file_requirements["review_file"]:
+                        review_file_list.append(file_specs)
 
-                else:
-                    other_file_list.append(file_specs)
+                    if file_type_extension in file_requirements["junk_file"]:
+                        junk_file_list.append(file_specs)
+
+                # NEED TO CHECK IF WORKS!!
+                # if no requirements then just append all in other
+                default_file.append(file_specs)
 
             except FileNotFoundError:
                 file_path_error += 1
@@ -29,7 +35,7 @@ def take_inventory_dir(dir_path, file_requirements):
         "file_error": file_path_error,
         "review_files": review_file_list,
         "junk_files": junk_file_list,
-        "other_files": other_file_list
+        "other_files": default_file
     }
     return file_bundle
 
