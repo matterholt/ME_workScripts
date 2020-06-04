@@ -2,61 +2,36 @@ import os
 from file_class import File_Data
 
 
-def take_inventory_dir(dir_path, file_requirements=None):
+def take_inventory_dir(dir_path):
 
     file_path_error = 0
 
     default_file = []
-    junk_file_list = []
-    review_file_list = []
 
-    for subdir, dirs, files in os.walk(dir_path):
+    for subdir, dirs, files in os.walk
+
+(dir_path):
         for file_name in files:
             try:
                 file_specs = File_Data(subdir, dirs, file_name)
-                file_type_extension = file_specs.file_type_extension()
+                data = {
+                  
 
-                if file_requirements is not None:
+  "name": file_specs.file_name,
+                    "year": file_specs.year_file_accessed(),
+                    "size": file_specs.file_size_KB(),
+                  
 
-                    if file_type_extension in file_requirements["review_file"]:
-                        review_file_list.append(file_specs)
+  "path": file_specs.file_path,
+                    "extension": file_specs.file_type_extension()
+                }
+                default_file.append(data)
 
-                    if file_type_extension in file_requirements["junk_file"]:
-                        junk_file_list.append(file_specs)
+         
 
-                # NEED TO CHECK IF WORKS!!
-                # if no requirements then just append all in other
-                default_file.append(file_specs)
-
-            except FileNotFoundError:
+   except FileNotFoundError:
                 file_path_error += 1
+    print(f"{file_path_error} paths are NG")
 
-    file_bundle = {
-        "file_error": file_path_error,
-        "review_files": review_file_list,
-        "junk_files": junk_file_list,
-        "other_files": default_file
-    }
-    return file_bundle
+    return default_file
 
-
-def parse_file_info(file):
-    if "file_error" in file:
-        del file["file_error"]
-
-    doc_try = []
-
-    for file_category in file.keys():
-        data_stage = file[file_category]
-        data_list = {'file_category': file_category, 'file_data': []}
-        for x in data_stage:
-            data = {
-                "name": x.file_name,
-                "year": x.year_file_accessed(),
-                "size": x.file_size_KB(),
-                "extension": x.file_type_extension()
-            }
-            data_list['file_data'].append(data)
-        doc_try.append(data_list)
-
-    return doc_try
