@@ -1,67 +1,87 @@
-"""
-Created on Tue Jun  2 09:02:18 2020
 
-@author: MATTERHOLT
-question for analysis report
-
-1. what files are being stored
-    - what type? , what year?, space taken up on hard drive
-"""
 from bokeh.plotting import figure, output_file, show
+from bokeh.models import ColumnDataSource
+from bokeh.layouts import column
 import json
 
 
-def year_summary(year_list):
-    list_summary = {}
-
-    for year in year_list:
-        list_summary[year] = list_summary.get(year, 0)+1
-
-    return list_summary
-
-
-def year_count(data_struct):
+def total_files_size_year(data,year_range_file):
     """
-    reduce object to a list of years
+    with the above data need to return a python dict that will contain
+    year,file_count, total size of the files per year
     """
-    year = []
-    for key in data_struct['file_data']:
-        year.append(key['year'])
 
-    summary = year_summary(year)
-    return summary
+    parse_year_counts = []
 
+    for year in year_range_file:
+        if year != "unknown":
+            print(year)
+            size_count = 0
+            file_count = 0
+            for entry in data:
+                    file_year = entry['year']
+                    if year == file_year:
+                        size_count += int(entry['size'])
+                        file_count += 1
 
-def bar_graph(inputs):
-    output_file("year_count.html")
-
-    years = list(inputs.keys())
-    year_freq = list(inputs.values())
-
-    # sort by data
-    year_sort = sorted(years)
-
-    p = figure(plot_width=400, plot_height=400, x_range=year_sort)
-
-    p.vbar(x=years, top=year_freq, width=0.5, color="navy", alpha=0.5)
-
-    show(p)
+            parse_year_counts.append({'year': year,'total_size': size_count, 'total_file': file_count})
+    return parse_year_counts
 
 
-def main(file_inventory):
+def ploted_data(data):
+    years = list(map(lambda x: x['year'],data))
+    hd_size = list(map(lambda x: x['total_size'],data))
+    count = list(map(lambda x: x['total_file'],data))
 
-    section_one = file_inventory[0]
+    return {'years': years, 'hd_size': hd_size, 'count': count}    
 
-    section_year_count = year_count(section_one)
+def list_year_size_date(json_list):
+    years_collected = list(map(lambda x:{'year': x['year'],'size':x['size'],'ext':x['extension']},json_list))
+    return years_collected
 
-    bar_graph(section_year_count)
 
 
-if __name__ == "__main__":
+def year_file_count_vBar(data_list):
+    
+    source = ColumnDataSource(data=data_list)
+    
+    year_sorted = sorted(data_list['years'])
+    
+    # output to static HTML file
+    output_file("lines.html")
+    
+    # create a new plot with a title and axis labels
+    def count():
+        p = figure(title="simple line example",plot_width=950, x_axis_label='count', y_axis_label='year', x_range=year_sorted)
+        p.vbar(x='years', top='count', width=0.5,color="navy", source=source, legend_label="file count")
+        return p
+    
+    def size():
+        p = figure(title="simple line example",plot_width=950, x_axis_label='count', y_axis_label='year', x_range=year_sorted)
+        p.vbar(x='years', top='hd_size', width=0.5,color="red", source=source, legend_label="file size")
+        return p
+    
+    file_count=count()
+    hd_size = size()
+
+    show(column(file_count,hd_size))
+
+def main():
     file_data = None
-
-    data_file = r"sample.json"
+    
+    
+    file =r"C:val_save-full.json"
+    data_file = file
     with open(data_file)as f:
         file_data = json.load(f)
-
-    main(file_data)
+    
+    
+    year_range_file = set(list(map(lambda x: x['year'],file_data)))
+    working_data = list_year_size_date(file_data)
+    organize_byYear_size_count = total_files_size_year(working_data,year_range_file)
+    plot_data_struct  = ploted_data(organize_byYear_size_count)
+    year_file_count_vBar(plot_data_struct)
+    
+    
+if __name__ == "__main__":
+    main()
